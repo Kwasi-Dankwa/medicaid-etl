@@ -33,15 +33,97 @@ Technologies:
 * Python/Jupyter Notebook - ETL
 
 # 🗂️Data Preparation / ETL Summary
-Preprocessing steps:
 
-Removed aggregate rows where mftr_name = "Overall"
+## Extraction
+* The data was imported as a JSON object and converted to a structured DataFrame using pandas for easy analysis and visualization.
+* The extraction process ensures that the analysis always uses the most up-to-date version of the CMS dataset.
 
-Pivoted data to calculate year-over-year changes
+## Transformation(Data Cleaning and Preparation)
+The raw dataset from the CMS API was cleaned and prepared using Python in a Jupyter Notebook. The main goals were to ensure consistency in naming, fix data types, remove irrelevant information, and handle missing values.
 
-Created calculated fields (e.g., Absolute Increase)
+### 🔧 Key Steps Performed:
+* Standardized Column Names
 
-Filtered by brand names and grouped manufacturers for clarity
+* All column names were converted to lowercase, stripped of whitespace, and special characters (like spaces) were replaced with underscores for easier referencing in code.
+
+* Fixed Data Types
+
+* Columns containing spending (spndng), averages (avg), and totals (tot) were explicitly converted to numeric types using pandas.to_numeric() to ensure they were ready for aggregation and analysis.
+
+* Removed Irrelevant Columns
+
+* Columns unrelated to the key business questions (e.g., total manufacturers, dosage units, claims, and per-claim averages) were dropped to streamline the dataset and focus only on per-unit cost metrics.
+
+*Handled Missing Values, Null values in critical numeric fields were filled with 0, specifically in: Spending columns (spndng), Weighted averages (wghtd), General averages (avg). This ensured no nulls disrupted analysis or visualizations.
+
+* Verified Cleanliness
+
+* A final check using df.isnull().sum() confirmed that all relevant fields were properly cleaned and imputed.
+
+## Load Phase
+
+### 🔧 Key Steps Performed:
+1. Exported to CSV: The cleaned DataFrame was saved as medicaid_drug_spending_cleanv2.csv to preserve a flat file version for portability and use in tools like Excel or Tableau.
+2. To enable efficient SQL querying and structured storage, the DataFrame was loaded into a new SQLite database named medicaid_drug_spendingv2.db. A table called drug_spending was created (or replaced if it existed), and the cleaned data was inserted.
+3. Confirmation: The process was completed without error, confirming that the dataset is now stored in both relational and flat file formats for flexibility in analysis and reporting.
+
+
+
+# 🔍 Business Analysis Workflow
+To answer key business questions related to Medicaid drug spending, I followed a multi-step analysis process combining SQL, Excel, and Tableau for layered validation and insight generation.
+
+## 1. 🧠 SQL-Based Exploration
+Before visualization, I used SQL queries on the cleaned dataset stored in SQLite to:
+Aggregate and filter data to match each business question
+
+Identify key metrics such as:
+
+* Total Medicaid drug spending by year
+
+* Top manufacturers by cumulative spending
+
+* Drugs with the highest increase in spending per unit
+
+* Validated that the dataset structure supported meaningful insights
+
+Example:
+To identify the top 5 drugs with the largest increase in spending per unit from 2018 to 2022, I wrote SQL queries that calculated the difference between per-unit spending columns and ranked the results in descending order.
+
+## 2. 📊 Excel Pivot Tables for Quick Analysis
+After initial SQL insights, I imported the cleaned data into Excel to:
+
+Create pivot tables for dynamic filtering and aggregation
+
+Perform sanity checks on SQL results (e.g., do the top manufacturers in Excel match those from SQL?)
+
+Quickly compute metrics like averages, totals, and percentage changes using calculated fields
+
+This step allowed me to prototype and cross-verify insights before final visualization.
+
+## 3. 📈 Data Visualization with Tableau
+With the validated insights from SQL and Excel, I used Tableau Public to create interactive visualizations that:
+
+Showed trends in total drug spending over time
+
+Highlighted the top manufacturers and drugs driving cost increases
+
+Allowed for intuitive, visual storytelling suitable for business stakeholders
+
+These visualizations made the insights accessible to non-technical audiences such as Medicaid program managers and policy makers.
+
+## ✅ Outcome
+By combining SQL for precision, Excel for flexibility, and Tableau for communication, I ensured that the analysis was:
+
+Accurate (validated through multiple tools)
+
+Exploratory (allowing iteration and discovery)
+
+Insightful (translated into visuals for decision-makers)
+
+### 📊 Excel Pivot Tables
+The cleaned dataset was also explored using Excel pivot tables for dynamic filtering and cross-checking SQL results.
+
+📂 [Open the Excel file on OneDrive](https://1drv.ms/x/c/eb266b9037d2a0a2/EUheQrZB5tJMj147cKxYaDEBGse-eDCcKdvbpOlfMG7m0w?e=U0eyft)
 
 # 📈 Key Findings
 Summarizing insights from each question:
