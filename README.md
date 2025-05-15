@@ -30,10 +30,10 @@ Technologies:
 
 * Excel – for data cleaning and pivot table experimentation/presentations
 
-* Python - ETL
+* Python/Jupyter Notebook - ETL
 
 # 🗂️Data Preparation / ETL Summary
-Explain your preprocessing steps:
+Preprocessing steps:
 
 Removed aggregate rows where mftr_name = "Overall"
 
@@ -75,6 +75,7 @@ Together, these ten companies represent a large portion of total Medicaid spendi
 > A small number of manufacturers drive the majority of Medicaid drug spending. GlaxoSmithKline and Otsuka alone account for over $5B in expenditures. These findings highlight key targets for rebate negotiations and formulary review, supporting procurement and policy teams in maximizing cost control.
 
 ## Q3: **Total Medicaid drug spending has steadily increased from 2018 to 2022, indicating growing budget impact.**
+![Trend](images/Q3.png "Trend")
 * Yes — total Medicaid drug spending has increased over time, showing overall growth despite a temporary dip in 2020.
 
 * Spending rose from $4.68B in 2018 to $5.42B in 2022.
